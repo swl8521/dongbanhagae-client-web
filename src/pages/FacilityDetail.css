@@ -1,0 +1,100 @@
+.detail {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+.detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.detail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.detail__head h1 {
+  font-size: 28px;
+}
+
+.detail__addr {
+  color: var(--color-ink-soft);
+  margin-top: 6px;
+}
+
+.detail__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.detail__actions .favorite-btn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+
+.detail__views {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+.detail__section {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-line);
+}
+
+.detail__section h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.detail__section--pet {
+  background: var(--color-amber-soft);
+  border: 1px solid var(--color-amber);
+  border-radius: var(--radius-card);
+  padding: 18px;
+  border-top: 1px solid var(--color-amber);
+}
+
+.detail__section--pet .condition-tags {
+  margin-bottom: 10px;
+}
+
+.detail__pet-info dt {
+  font-weight: 600;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--color-pine-dark);
+}
+
+.detail__pet-info dd {
+  margin: 2px 0 0;
+}
+
+.detail__no-info {
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+.detail__status {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--color-ink-soft);
+}
+
+.detail__status--error {
+  color: var(--color-coral);
+}

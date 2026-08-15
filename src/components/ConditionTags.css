@@ -1,0 +1,31 @@
+.condition-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.condition-tag {
+  padding: 2px 8px;
+  border-radius: var(--radius-chip);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.condition-tag--positive {
+  background: rgba(111, 199, 154, 0.15);
+  color: var(--color-pine);
+}
+
+.condition-tag--warning {
+  background: rgba(240, 172, 66, 0.15);
+  color: var(--color-amber);
+}
+
+.condition-tag--info {
+  background: rgba(154, 163, 155, 0.15);
+  color: var(--color-ink-soft);
+}

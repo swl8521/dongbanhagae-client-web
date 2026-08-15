@@ -1,0 +1,55 @@
+.map-view {
+  height: 100%;
+  width: 100%;
+}
+
+.facility-marker__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* MapLibre 기본 컨트롤(줌 버튼/attribution/팝업)이 밝은 배경 전제라 다크 테마에 맞게 재도색 */
+.maplibregl-ctrl-group {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-line);
+}
+
+.maplibregl-ctrl-group button {
+  background: transparent !important;
+}
+
+.maplibregl-ctrl-icon {
+  filter: invert(1) brightness(1.6);
+}
+
+.maplibregl-ctrl-attrib {
+  background: rgba(20, 23, 26, 0.75) !important;
+  color: var(--color-ink-soft);
+}
+
+.maplibregl-ctrl-attrib a {
+  color: var(--color-ink-soft) !important;
+}
+
+.maplibregl-popup-content {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.maplibregl-popup-tip {
+  border-top-color: var(--color-surface) !important;
+  border-bottom-color: var(--color-surface) !important;
+}
+
+.maplibregl-popup-close-button {
+  color: var(--color-ink-soft);
+}

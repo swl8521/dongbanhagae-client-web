@@ -1,0 +1,74 @@
+import { useEffect, useRef } from 'react';
+import { Map as MaplibreMap, Marker, Popup, NavigationControl } from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { createFacilityMarkerElement } from '../lib/facilityMarkerIcon';
+import './MapView.css';
+
+// OpenFreeMap: 무료, API 키 불필요, 사용량 제한 없음 (기부로 운영) - https://openfreemap.org
+const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
+
+// 이 스타일에 포함된 국가/행정구역 경계선 레이어. 남북 분단선이 지도에서 과하게 도드라져서 끈다.
+const BOUNDARY_LAYER_IDS = ['boundary_2', 'boundary_3', 'boundary_disputed'];
+
+export default function MapView({ center, zoom, markers, onMarkerClick }) {
+  const containerRef = useRef(null);
+  const mapRef = useRef(null);
+  const markersRef = useRef([]);
+
+  // 지도는 최초 1번만 생성
+  useEffect(() => {
+    const map = new MaplibreMap({
+      container: containerRef.current,
+      style: STYLE_URL,
+      center: [center[1], center[0]],
+      zoom,
+      attributionControl: { compact: true },
+    });
+    map.addControl(new NavigationControl({ showCompass: false }), 'top-left');
+
+    map.on('load', () => {
+      BOUNDARY_LAYER_IDS.forEach((id) => {
+        if (map.getLayer(id)) map.removeLayer(id);
+      });
+    });
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // center/zoom이 바뀌면(지역 선택, 내 주변 등) 그 위치로 이동
+  useEffect(() => {
+    mapRef.current?.jumpTo({ center: [center[1], center[0]], zoom });
+  }, [center, zoom]);
+
+  // 마커는 목록이 바뀔 때마다 전부 새로 그린다
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    markersRef.current.forEach((m) => m.remove());
+
+    markersRef.current = markers.map((item) => {
+      const el = createFacilityMarkerElement(item.contenttypeid);
+      el.style.cursor = 'pointer';
+
+      const marker = new Marker({ element: el })
+        .setLngLat([Number(item.mapx), Number(item.mapy)])
+        .setPopup(new Popup({ offset: 15 }).setText(item.title))
+        .addTo(map);
+
+      if (onMarkerClick) {
+        el.addEventListener('click', () => onMarkerClick(item));
+      }
+
+      return marker;
+    });
+  }, [markers, onMarkerClick]);
+
+  return <div ref={containerRef} className="map-view" />;
+}

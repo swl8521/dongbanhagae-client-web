@@ -1,0 +1,61 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+:root {
+  /* --- 동반하개 디자인 토큰 (다크 베이스) --- */
+  --color-bg: #14171A;
+  --color-surface: #1D211E;
+  --color-pine: #6FC79A;        /* 밝은 그린 - 다크 배경 위 텍스트/아이콘 강조용 */
+  --color-pine-strong: #2E7D53; /* 진한 그린 - 버튼/칩 등 채워진 배경(흰 텍스트용) */
+  --color-pine-dark: #EAF3EC;   /* 헤딩/라벨용 밝은 색 (변수명은 유지, 역할은 반전) */
+  --color-amber: #F0AC42;       /* 포인트 - 출입 허가/도장 느낌 */
+  --color-amber-soft: #332A18;
+  --color-coral: #EE8A76;       /* 경고/제한조건 */
+  --color-ink: #EDEFEA;
+  --color-ink-soft: #9AA39B;
+  --color-line: #2B302B;
+
+  --font-display: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+  --font-body: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+
+  --radius-card: 18px;
+  --radius-chip: 999px;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--color-pine-dark);
+  margin: 0;
+}
+
+a { color: inherit; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* 포커스 링 - 키보드 접근성 */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

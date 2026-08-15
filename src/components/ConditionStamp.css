@@ -1,0 +1,37 @@
+.stamp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 2.5px solid currentColor;
+  transform: rotate(-8deg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.25;
+  padding: 6px;
+  flex-shrink: 0;
+}
+
+.stamp::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.55;
+}
+
+.stamp--ok        { color: var(--color-pine); }
+.stamp--limited    { color: var(--color-amber); }
+.stamp--unknown    { color: var(--color-ink-soft); }
+
+.stamp__text {
+  position: relative;
+  z-index: 1;
+}
