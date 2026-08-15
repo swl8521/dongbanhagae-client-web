@@ -1,8 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { Map as MaplibreMap, Marker, Popup, NavigationControl } from 'maplibre-gl';
+import { Map as MaplibreMap, Marker, Popup, NavigationControl, setWorkerUrl } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createFacilityMarkerElement } from '../lib/facilityMarkerIcon';
 import './MapView.css';
+
+// maplibre-gl은 워커 스크립트를 import.meta.url 기준 동적 경로로 찾는데, Vite 프로덕션
+// 빌드는 이 패턴을 정적 분석하지 못해 워커 파일을 번들에 포함하지 않는다(dev 서버는
+// node_modules를 그대로 서빙해서 우연히 동작함). 그 결과 빌드 후에는 존재하지 않는 워커
+// URL 요청이 SPA fallback으로 index.html을 받아버려 워커가 조용히 죽고, 벡터 타일이
+// 하나도 안 뜨는 빈 지도가 된다. scripts/copy-maplibre-worker.js가 public/에 복사해둔
+// 워커 파일(과 그 워커가 상대경로로 import하는 sibling 파일)을 setWorkerUrl로 지정해 우회한다.
+setWorkerUrl('/maplibre-gl-worker.mjs');
 
 // OpenFreeMap: 무료, API 키 불필요, 사용량 제한 없음 (기부로 운영) - https://openfreemap.org
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
