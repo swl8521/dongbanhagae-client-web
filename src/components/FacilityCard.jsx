@@ -5,6 +5,7 @@ import ConditionTags from './ConditionTags';
 import FavoriteButton from './FavoriteButton';
 import RecommendButton from './RecommendButton';
 import { formatDistance } from '../lib/formatDistance';
+import { formatModifiedDate } from '../lib/formatModifiedDate';
 import './FacilityCard.css';
 
 // TourAPI 응답 필드명은 표준 필드(title/addr1/firstimage 등)는 안정적이지만,
@@ -26,9 +27,11 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
     firstimage,
     recommendCount = 0,
     dist,
+    modifiedtime,
   } = item;
 
   const distanceLabel = formatDistance(dist);
+  const modifiedDate = formatModifiedDate(modifiedtime);
   const location = useLocation();
 
   return (
@@ -65,6 +68,7 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
       </div>
 
       <ConditionStamp status={guessPetStatus(item)} />
+      {modifiedDate && <p className="facility-card__modified">갱신 {modifiedDate}</p>}
     </Link>
   );
 }

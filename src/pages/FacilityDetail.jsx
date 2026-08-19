@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams, useLocation, Link } from 'react-router-dom';
-import { ArrowLeft, Eye } from 'lucide-react';
+import { ArrowLeft, Eye, Phone } from 'lucide-react';
 import { fetchPetFacilityDetail } from '../api/client';
 import { getFriendlyErrorMessage } from '../lib/errorMessage';
+import { formatModifiedDate } from '../lib/formatModifiedDate';
 import ConditionStamp from '../components/ConditionStamp';
 import ConditionTags from '../components/ConditionTags';
 import FavoriteButton from '../components/FavoriteButton';
@@ -36,6 +37,7 @@ export default function FacilityDetail() {
   if (status === 'error') return <p className="detail__status detail__status--error">{error}</p>;
 
   const { common, pet, stats } = data;
+  const modifiedDate = formatModifiedDate(common.modifiedtime);
 
   return (
     <div className="detail">
@@ -50,6 +52,7 @@ export default function FacilityDetail() {
       </div>
 
       <p className="detail__addr">{common.addr1} {common.addr2}</p>
+      {modifiedDate && <p className="detail__modified">정보 갱신: {modifiedDate}</p>}
 
       <div className="detail__actions">
         <FavoriteButton contentId={contentId} size={18} />
@@ -92,6 +95,16 @@ export default function FacilityDetail() {
             등록된 반려동물 동반 조건 정보가 없습니다. 방문 전 시설에 직접 확인하는 것을 권장합니다.
           </p>
         )}
+
+        <div className="detail__disclaimer">
+          <p>현장 사정에 따라 조건이 변경될 수 있어요. 방문 전 시설에 다시 확인하는 걸 권장합니다.</p>
+          {common.tel && (
+            <a href={`tel:${common.tel.replace(/[^0-9-]/g, '')}`} className="detail__call-btn">
+              <Phone size={14} strokeWidth={2.25} />
+              전화 문의
+            </a>
+          )}
+        </div>
       </section>
     </div>
   );
