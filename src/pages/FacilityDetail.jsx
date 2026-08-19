@@ -9,6 +9,7 @@ import ConditionTags from '../components/ConditionTags';
 import FavoriteButton from '../components/FavoriteButton';
 import RecommendButton from '../components/RecommendButton';
 import ReportIssueForm from '../components/ReportIssueForm';
+import ShareButton from '../components/ShareButton';
 import './FacilityDetail.css';
 
 export default function FacilityDetail() {
@@ -68,6 +69,11 @@ export default function FacilityDetail() {
           <Eye size={14} strokeWidth={2.25} />
           조회 {stats?.viewCount ?? 0}
         </span>
+        <ShareButton
+          title={common.title}
+          text={`동반하개에서 확인한 반려동물 동반 시설: ${common.title}`}
+          className="detail__share"
+        />
       </div>
 
       {common.overview && (
