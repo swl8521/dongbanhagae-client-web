@@ -1,0 +1,77 @@
+.report-form__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-ink-soft);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.report-form {
+  margin-top: 12px;
+}
+
+.report-form__textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.report-form__textarea::placeholder {
+  color: var(--color-ink-soft);
+}
+
+.report-form__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.report-form__error {
+  margin-right: auto;
+  font-size: 12px;
+  color: var(--color-coral);
+}
+
+.report-form__cancel {
+  padding: 6px 12px;
+  border-radius: var(--radius-chip);
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.report-form__submit {
+  padding: 6px 14px;
+  border-radius: var(--radius-chip);
+  border: none;
+  background: var(--color-pine-strong);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.report-form__submit:disabled {
+  opacity: 0.5;
+}
+
+.report-form__done {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--color-pine);
+}

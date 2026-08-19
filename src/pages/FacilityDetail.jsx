@@ -8,6 +8,7 @@ import ConditionStamp from '../components/ConditionStamp';
 import ConditionTags from '../components/ConditionTags';
 import FavoriteButton from '../components/FavoriteButton';
 import RecommendButton from '../components/RecommendButton';
+import ReportIssueForm from '../components/ReportIssueForm';
 import './FacilityDetail.css';
 
 export default function FacilityDetail() {
@@ -105,6 +106,8 @@ export default function FacilityDetail() {
             </a>
           )}
         </div>
+
+        <ReportIssueForm contentId={contentId} />
       </section>
     </div>
   );

@@ -29,4 +29,9 @@ export async function fetchAreaCounts() {
   return data.counts;
 }
 
+export async function reportFacilityIssue(contentId, message) {
+  const { data } = await api.post(`/api/pet-facilities/${contentId}/report`, { message });
+  return data;
+}
+
 export default api;
