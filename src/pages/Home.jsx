@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { LocateFixed, Route } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Heart, LocateFixed, Route } from 'lucide-react';
 import { usePetFacilities } from '../hooks/usePetFacilities';
 import { fetchAreaCounts } from '../api/client';
 import { useLocalSet } from '../lib/localSetStore';
@@ -192,15 +192,20 @@ export default function Home() {
   return (
     <div className="home">
       <header className="home__header">
-        <div>
-          <p className="home__eyebrow">전국 반려동물 동반 시설</p>
-          <h1>
-            동반하개
-            <span className="home__title-icons">
-              <Route size={20} strokeWidth={2} />
-            </span>
-          </h1>
-          <p className="home__lede">미리미리 확인해요!</p>
+        <div className="home__header-top">
+          <div>
+            <p className="home__eyebrow">전국 반려동물 동반 시설</p>
+            <h1>
+              동반하개
+              <span className="home__title-icons">
+                <Route size={20} strokeWidth={2} />
+              </span>
+            </h1>
+            <p className="home__lede">미리미리 확인해요!</p>
+          </div>
+          <Link to="/favorites" className="home__favorites-link" aria-label="즐겨찾기 목록">
+            <Heart size={20} strokeWidth={2} />
+          </Link>
         </div>
 
         <form

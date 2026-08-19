@@ -8,6 +8,27 @@
   margin-bottom: 20px;
 }
 
+.home__header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.home__favorites-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-coral);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
 .home__eyebrow {
   font-size: 12px;
   font-weight: 600;
