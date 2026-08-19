@@ -8,6 +8,7 @@ import ConditionStamp from '../components/ConditionStamp';
 import ConditionTags from '../components/ConditionTags';
 import FavoriteButton from '../components/FavoriteButton';
 import RecommendButton from '../components/RecommendButton';
+import ImageGallery from '../components/ImageGallery';
 import ReportIssueForm from '../components/ReportIssueForm';
 import ShareButton from '../components/ShareButton';
 import './FacilityDetail.css';
@@ -38,8 +39,10 @@ export default function FacilityDetail() {
   if (status === 'loading') return <p className="detail__status">불러오는 중...</p>;
   if (status === 'error') return <p className="detail__status detail__status--error">{error}</p>;
 
-  const { common, pet, stats } = data;
+  const { common, pet, stats, images } = data;
   const modifiedDate = formatModifiedDate(common.modifiedtime);
+  // detailImage2에 등록된 이미지가 없는 시설이 많아, 그럴 땐 목록에서도 쓰는 firstimage로 대체한다.
+  const galleryImages = images?.length ? images : common.firstimage ? [{ url: common.firstimage }] : [];
 
   return (
     <div className="detail">
@@ -47,6 +50,8 @@ export default function FacilityDetail() {
         <ArrowLeft size={16} strokeWidth={2} />
         목록으로
       </Link>
+
+      <ImageGallery images={galleryImages} alt={common.title} />
 
       <div className="detail__head">
         <h1>{common.title}</h1>
