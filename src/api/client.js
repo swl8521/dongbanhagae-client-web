@@ -5,9 +5,9 @@ const api = axios.create({
   timeout: 8000,
 });
 
-export async function fetchPetFacilities({ areaCode, keyword, pageNo, numOfRows, mapX, mapY, radius } = {}) {
+export async function fetchPetFacilities({ areaCode, contentTypeId, keyword, pageNo, numOfRows, mapX, mapY, radius } = {}) {
   const { data } = await api.get('/api/pet-facilities', {
-    params: { areaCode, keyword, pageNo, numOfRows, mapX, mapY, radius },
+    params: { areaCode, contentTypeId, keyword, pageNo, numOfRows, mapX, mapY, radius },
   });
   return data;
 }

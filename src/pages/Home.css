@@ -138,6 +138,10 @@
   margin-top: 8px;
 }
 
+.home__filters--type {
+  margin-top: 8px;
+}
+
 .home__location-error {
   margin: 8px 0 0;
   font-size: 13px;

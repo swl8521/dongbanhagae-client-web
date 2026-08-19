@@ -46,6 +46,19 @@ const RADIUS_OPTIONS = [
   { value: 20000, label: '20km' },
 ];
 
+// facilityMarkerIcon.js의 카테고리 분류와 동일한 TourAPI 표준 contentTypeId 기준
+const CONTENT_TYPE_OPTIONS = [
+  { code: '', label: '전체' },
+  { code: '12', label: '관광지' },
+  { code: '14', label: '문화시설' },
+  { code: '15', label: '축제/공연/행사' },
+  { code: '25', label: '여행코스' },
+  { code: '28', label: '레포츠' },
+  { code: '32', label: '숙박' },
+  { code: '38', label: '쇼핑' },
+  { code: '39', label: '음식점' },
+];
+
 const LOCATION_ERROR_MESSAGES = {
   denied: '위치 권한이 거부됐어요. 브라우저 설정에서 허용한 뒤 다시 시도해주세요.',
   unsupported: '이 브라우저는 위치 확인을 지원하지 않아요.',
@@ -58,6 +71,7 @@ export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const areaCode = searchParams.get('area') ?? '';
+  const contentTypeId = searchParams.get('contentTypeId') ?? '';
   const keyword = searchParams.get('keyword') ?? '';
   const sortBy = searchParams.get('sort') ?? 'default';
   const lat = searchParams.get('lat');
@@ -93,6 +107,7 @@ export default function Home() {
 
   const { items, status, error, hasMore, loadMore, patchItem, totalCount } = usePetFacilities({
     areaCode,
+    contentTypeId,
     keyword,
     mapX: coords?.mapX,
     mapY: coords?.mapY,
@@ -267,6 +282,19 @@ export default function Home() {
             ))}
           </div>
         )}
+
+        <div className="home__filters home__filters--type">
+          {CONTENT_TYPE_OPTIONS.map((opt) => (
+            <button
+              key={opt.code}
+              type="button"
+              className={`chip chip--sort ${contentTypeId === opt.code ? 'chip--active' : ''}`}
+              onClick={() => updateParams({ contentTypeId: opt.code || undefined })}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
 
         {LOCATION_ERROR_MESSAGES[locationState] && (
           <p className="home__location-error">{LOCATION_ERROR_MESSAGES[locationState]}</p>

@@ -4,7 +4,7 @@ import { getFriendlyErrorMessage } from '../lib/errorMessage';
 
 const PAGE_SIZE = 20;
 
-export function usePetFacilities({ areaCode, keyword, mapX, mapY, radius } = {}) {
+export function usePetFacilities({ areaCode, contentTypeId, keyword, mapX, mapY, radius } = {}) {
   const [items, setItems] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [pageNo, setPageNo] = useState(1);
@@ -18,7 +18,7 @@ export function usePetFacilities({ areaCode, keyword, mapX, mapY, radius } = {})
     setStatus('loading');
     setError(null);
 
-    fetchPetFacilities({ areaCode, keyword, mapX, mapY, radius, pageNo: 1, numOfRows: PAGE_SIZE })
+    fetchPetFacilities({ areaCode, contentTypeId, keyword, mapX, mapY, radius, pageNo: 1, numOfRows: PAGE_SIZE })
       .then((data) => {
         if (requestId.current !== currentRequest) return;
         setItems(data.items || []);
@@ -31,7 +31,7 @@ export function usePetFacilities({ areaCode, keyword, mapX, mapY, radius } = {})
         setError(getFriendlyErrorMessage(err));
         setStatus('error');
       });
-  }, [areaCode, keyword, mapX, mapY, radius]);
+  }, [areaCode, contentTypeId, keyword, mapX, mapY, radius]);
 
   const hasMore = items.length < totalCount;
 
@@ -42,7 +42,7 @@ export function usePetFacilities({ areaCode, keyword, mapX, mapY, radius } = {})
     const nextPage = pageNo + 1;
     setStatus('loading-more');
 
-    fetchPetFacilities({ areaCode, keyword, mapX, mapY, radius, pageNo: nextPage, numOfRows: PAGE_SIZE })
+    fetchPetFacilities({ areaCode, contentTypeId, keyword, mapX, mapY, radius, pageNo: nextPage, numOfRows: PAGE_SIZE })
       .then((data) => {
         if (requestId.current !== currentRequest) return;
         setItems((prev) => [...prev, ...(data.items || [])]);
@@ -54,7 +54,7 @@ export function usePetFacilities({ areaCode, keyword, mapX, mapY, radius } = {})
         setError(getFriendlyErrorMessage(err));
         setStatus('error');
       });
-  }, [areaCode, keyword, mapX, mapY, radius, pageNo, status, hasMore]);
+  }, [areaCode, contentTypeId, keyword, mapX, mapY, radius, pageNo, status, hasMore]);
 
   const patchItem = useCallback((contentId, patch) => {
     setItems((prev) => prev.map((it) => (it.contentid === contentId ? { ...it, ...patch } : it)));
