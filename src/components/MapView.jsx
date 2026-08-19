@@ -18,10 +18,18 @@ const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 // 이 스타일에 포함된 국가/행정구역 경계선 레이어. 남북 분단선이 지도에서 과하게 도드라져서 끈다.
 const BOUNDARY_LAYER_IDS = ['boundary_2', 'boundary_3', 'boundary_disputed'];
 
-export default function MapView({ center, zoom, markers, onMarkerClick }) {
+export default function MapView({ center, zoom, markers, onMarkerClick, onUserMoveEnd }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]);
+  // 맵 생성 effect는 최초 1번만 도는데 onUserMoveEnd는 매 렌더마다 새로 만들어지는
+  // 함수라서, 리스너 안에서 직접 참조하면 항상 최초 렌더의 콜백만 호출된다(stale closure).
+  // ref로 감싸 항상 최신 콜백을 가리키게 한다.
+  const onUserMoveEndRef = useRef(onUserMoveEnd);
+
+  useEffect(() => {
+    onUserMoveEndRef.current = onUserMoveEnd;
+  }, [onUserMoveEnd]);
 
   // 지도는 최초 1번만 생성
   useEffect(() => {
@@ -38,6 +46,15 @@ export default function MapView({ center, zoom, markers, onMarkerClick }) {
       BOUNDARY_LAYER_IDS.forEach((id) => {
         if (map.getLayer(id)) map.removeLayer(id);
       });
+    });
+
+    // originalEvent가 있으면 드래그/스크롤/터치 등 사용자가 직접 움직인 것이고,
+    // 우리 코드가 호출한 jumpTo(지역 선택, 내 주변 등)는 originalEvent가 없다.
+    // 이 구분이 없으면 우리가 지도를 움직일 때마다 "이 지역 재검색" 버튼이 떴다 사라진다.
+    map.on('moveend', (e) => {
+      if (!e.originalEvent) return;
+      const c = map.getCenter();
+      onUserMoveEndRef.current?.({ lat: c.lat, lng: c.lng });
     });
 
     mapRef.current = map;

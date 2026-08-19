@@ -90,6 +90,14 @@ export default function Home() {
   const [searchInput, setSearchInput] = useState(keyword);
   const [locationState, setLocationState] = useState('idle'); // idle | requesting | denied | unsupported | error
   const [highlightedId, setHighlightedId] = useState(null);
+  // 내 주변 모드에서 사용자가 지도를 직접 옮겼을 때, 그 지점을 바로 검색하지 않고
+  // "이 지역 재검색" 버튼을 눌러야 반영되도록 대기시켜두는 좌표.
+  const [pendingCenter, setPendingCenter] = useState(null);
+
+  // lat/lng가 바뀌면(재검색 적용, 내 주변 새로 클릭, 위치 필터 해제 등) 대기 중이던 좌표는 의미가 없어진다.
+  useEffect(() => {
+    setPendingCenter(null);
+  }, [lat, lng]);
 
   function updateParams(updates) {
     setSearchParams((prev) => {
@@ -118,6 +126,19 @@ export default function Home() {
   function clearLocation() {
     updateParams({ lat: undefined, lng: undefined, radius: undefined });
     setLocationState('idle');
+  }
+
+  // 내 주변 모드에서만 지도 이동을 재검색 후보로 취급한다 - 지역/키워드 조회에서는
+  // 좌표 기반 검색으로 전환한다는 의미가 없어 버튼을 띄우지 않는다.
+  function handleMapMoved(nextCenter) {
+    if (!coords) return;
+    setPendingCenter(nextCenter);
+  }
+
+  function handleResearchHere() {
+    if (!pendingCenter) return;
+    updateParams({ lat: pendingCenter.lat, lng: pendingCenter.lng });
+    setPendingCenter(null);
   }
 
   function handleUseMyLocation() {
@@ -307,7 +328,14 @@ export default function Home() {
           zoom={coords ? 13 : 7}
           markers={markers}
           onMarkerClick={handleMarkerClick}
+          onUserMoveEnd={handleMapMoved}
         />
+        {pendingCenter && (
+          <button type="button" className="home__research-btn" onClick={handleResearchHere}>
+            <LocateFixed size={13} strokeWidth={2.25} />
+            이 지역 재검색
+          </button>
+        )}
       </div>
 
       <main className="home__list">
