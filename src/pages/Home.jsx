@@ -233,7 +233,7 @@ export default function Home() {
             <p className="home__eyebrow">전국 반려동물 동반 시설</p>
             <h1>
               동반하개
-              <span className="home__title-icons">
+              <span className="home__title-icons" aria-hidden="true">
                 <Route size={20} strokeWidth={2} />
               </span>
             </h1>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">동반하개</title>
+  <desc id="desc">두 장소를 하나의 길로 연결한 동반하개 경로 심벌</desc>
+  <circle cx="32" cy="32" r="30" fill="#2E7D53"/>
+  <g fill="none" stroke="#EDEFEA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="22" cy="20" r="4"/>
+    <circle cx="42" cy="32" r="4"/>
+    <circle cx="22" cy="44" r="4"/>
+    <path d="M26 20h9a7 7 0 0 1 7 7v1M38 32h-9a7 7 0 0 0-7 7v1"/>
+  </g>
+</svg>
