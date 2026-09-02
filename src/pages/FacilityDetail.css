@@ -39,27 +39,50 @@
 .detail__actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-top: 14px;
 }
 
-.detail__actions .favorite-btn {
-  background: var(--color-surface);
+.detail__actions .favorite-btn,
+.detail__actions .share-btn,
+.detail__actions .recommend-btn,
+.detail__views {
+  height: 32px;
+  align-self: center;
+  border-radius: var(--radius-chip);
   border: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.detail__actions .favorite-btn,
+.detail__actions .share-btn {
+  width: 32px;
+  padding: 0;
+}
+
+.detail__actions .favorite-btn {
+  color: var(--color-ink-soft);
+}
+
+.detail__actions .favorite-btn--active {
+  color: var(--color-coral);
+}
+
+.detail__actions .recommend-btn {
+  padding: 0 12px;
 }
 
 .detail__views {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  padding: 0 12px;
   font-size: 13px;
   color: var(--color-ink-soft);
 }
 
 .detail__share {
   margin-left: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
 }
 
 .detail__section {

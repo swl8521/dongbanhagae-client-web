@@ -62,7 +62,7 @@ export default function FacilityDetail() {
       {modifiedDate && <p className="detail__modified">정보 갱신: {modifiedDate}</p>}
 
       <div className="detail__actions">
-        <FavoriteButton contentId={contentId} size={18} />
+        <FavoriteButton contentId={contentId} size={16} />
         <RecommendButton
           contentId={contentId}
           count={stats?.recommendCount ?? 0}
@@ -77,6 +77,7 @@ export default function FacilityDetail() {
         <ShareButton
           title={common.title}
           text={`동반하개에서 확인한 반려동물 동반 시설: ${common.title}`}
+          size={16}
           className="detail__share"
         />
       </div>

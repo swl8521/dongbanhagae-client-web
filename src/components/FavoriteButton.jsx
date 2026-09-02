@@ -19,7 +19,7 @@ export default function FavoriteButton({ contentId, size = 18, className = '' })
         toggle(contentId);
       }}
     >
-      <Heart size={size} fill={active ? 'currentColor' : 'none'} />
+      <Heart size={size} strokeWidth={2.25} fill={active ? 'currentColor' : 'none'} />
     </button>
   );
 }
