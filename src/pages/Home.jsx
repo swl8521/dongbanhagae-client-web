@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Heart, LocateFixed, Route } from 'lucide-react';
 import { usePetFacilities } from '../hooks/usePetFacilities';
 import { fetchAreaCounts } from '../api/client';
 import { useLocalSet } from '../lib/localSetStore';
 import { favoritesStore } from '../lib/favoritesStore';
+import { readHomeListCache, writeHomeListCache } from '../lib/homeListCache';
 import FacilityCard from '../components/FacilityCard';
 import MapView from '../components/MapView';
 import './Home.css';
@@ -113,6 +114,10 @@ export default function Home() {
     }, { replace: true });
   }
 
+  // 목록 -> 상세 -> 뒤로가기로 돌아왔을 때 같은 필터 조건이면 다시 불러오지 않고
+  // 이어서 쓸 수 있도록 필터 전체(쿼리스트링)를 캐시 키로 쓴다.
+  const cacheKey = searchParams.toString();
+
   const { items, status, error, hasMore, loadMore, patchItem, totalCount } = usePetFacilities({
     areaCode,
     contentTypeId,
@@ -120,8 +125,31 @@ export default function Home() {
     mapX: coords?.mapX,
     mapY: coords?.mapY,
     radius: coords ? radius : undefined,
+    cacheKey,
   });
   const { has: isFavorite } = useLocalSet(favoritesStore);
+
+  // 상세화면에서 돌아왔을 때 저장해둔 스크롤 위치로 복원한다 - 컴포넌트가 마운트될 때 한 번만.
+  const restoredScrollRef = useRef(false);
+  useLayoutEffect(() => {
+    if (restoredScrollRef.current) return;
+    restoredScrollRef.current = true;
+    const cached = readHomeListCache(cacheKey);
+    if (cached?.scrollY) window.scrollTo(0, cached.scrollY);
+  }, [cacheKey]);
+
+  // 스크롤 위치를 계속 기록해뒀다가, 다른 화면으로 떠날 때(상세화면 진입 등) 캐시에 남긴다.
+  const scrollYRef = useRef(0);
+  useEffect(() => {
+    function handleScroll() {
+      scrollYRef.current = window.scrollY;
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      writeHomeListCache(cacheKey, { scrollY: scrollYRef.current });
+    };
+  }, [cacheKey]);
 
   function clearLocation() {
     updateParams({ lat: undefined, lng: undefined, radius: undefined });

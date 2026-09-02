@@ -27,6 +27,8 @@ export default function FacilityDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // 목록에서 스크롤이 내려간 채로 진입해도 상세화면은 항상 맨 위부터 보여준다.
+    window.scrollTo(0, 0);
     setStatus('loading');
     fetchPetFacilityDetail(contentId, contentTypeId)
       .then((res) => { setData(res); setStatus('done'); })
