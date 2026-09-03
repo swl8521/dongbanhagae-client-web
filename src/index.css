@@ -3,7 +3,7 @@
 :root {
   /* --- 동반하개 디자인 토큰 (다크 베이스) --- */
   --color-bg: #14171A;
-  --color-surface: #1D211E;
+  --color-surface: #313830;
   --color-pine: #6FC79A;        /* 밝은 그린 - 다크 배경 위 텍스트/아이콘 강조용 */
   --color-pine-strong: #2E7D53; /* 진한 그린 - 버튼/칩 등 채워진 배경(흰 텍스트용) */
   --color-pine-dark: #EAF3EC;   /* 헤딩/라벨용 밝은 색 (변수명은 유지, 역할은 반전) */
