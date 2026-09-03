@@ -18,7 +18,7 @@ export default function ConditionStamp({ status = 'unknown', label, variant = 's
   if (variant === 'badge') {
     return (
       <div className={`stamp-badge stamp-badge--${status}`} role="img" aria-label={`반려동물 ${text}`}>
-        <PawPrint size={11} strokeWidth={2.5} fill="currentColor" />
+        <PawPrint size={14} strokeWidth={2.5} fill="currentColor" />
         <span>{label || text}</span>
       </div>
     );
