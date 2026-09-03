@@ -4,6 +4,8 @@ import { ArrowLeft, Eye, Phone } from 'lucide-react';
 import { fetchPetFacilityDetail } from '../api/client';
 import { getFriendlyErrorMessage } from '../lib/errorMessage';
 import { formatModifiedDate } from '../lib/formatModifiedDate';
+import { guessPetStatus } from '../lib/petStatus';
+import { writePetStatus } from '../lib/petStatusCache';
 import ConditionStamp from '../components/ConditionStamp';
 import ConditionTags from '../components/ConditionTags';
 import FavoriteButton from '../components/FavoriteButton';
@@ -31,7 +33,13 @@ export default function FacilityDetail() {
     window.scrollTo(0, 0);
     setStatus('loading');
     fetchPetFacilityDetail(contentId, contentTypeId)
-      .then((res) => { setData(res); setStatus('done'); })
+      .then((res) => {
+        setData(res);
+        setStatus('done');
+        // 목록 API에는 없는 필드까지 포함된 실제 조회 결과이므로, 뒤로가기로 돌아간
+        // 목록 카드가 다시 "조회필요"로 보이지 않도록 확인된 상태를 캐시에 남긴다.
+        writePetStatus(contentId, guessPetStatus(res.pet));
+      })
       .catch((err) => {
         setError(getFriendlyErrorMessage(err));
         setStatus('error');
@@ -57,7 +65,7 @@ export default function FacilityDetail() {
 
       <div className="detail__head">
         <h1>{common.title}</h1>
-        <ConditionStamp status={pet ? 'ok' : 'unknown'} />
+        <ConditionStamp status={guessPetStatus(pet)} />
       </div>
 
       <p className="detail__addr">{common.addr1} {common.addr2}</p>

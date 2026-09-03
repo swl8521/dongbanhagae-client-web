@@ -6,17 +6,9 @@ import FavoriteButton from './FavoriteButton';
 import RecommendButton from './RecommendButton';
 import { formatDistance } from '../lib/formatDistance';
 import { formatModifiedDate } from '../lib/formatModifiedDate';
+import { guessPetStatus } from '../lib/petStatus';
+import { readPetStatus } from '../lib/petStatusCache';
 import './FacilityCard.css';
-
-// TourAPI 응답 필드명은 표준 필드(title/addr1/firstimage 등)는 안정적이지만,
-// 반려동물 조건 관련 필드는 실제 승인 후 응답을 보고 정확히 매핑해야 함.
-// 지금은 방어적으로 여러 후보 키를 확인하고, 없으면 'unknown' 처리.
-function guessPetStatus(item) {
-  const raw = (item?.acmpyPsblCpam || item?.acmpyTypeCd || '').toString();
-  if (!raw) return 'unknown';
-  if (raw.includes('가능') || raw.includes('전체')) return 'ok';
-  return 'limited';
-}
 
 export default function FacilityCard({ item, onRecommendChange, highlighted }) {
   const {
@@ -47,7 +39,7 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
           ? <img src={firstimage} alt={title} loading="lazy" />
           : <div className="facility-card__photo--placeholder"><PawPrint size={32} strokeWidth={1.75} /></div>}
         <FavoriteButton contentId={contentid} size={14} className="facility-card__fav" />
-        <ConditionStamp status={guessPetStatus(item)} variant="badge" />
+        <ConditionStamp status={readPetStatus(contentid) ?? guessPetStatus(item)} variant="badge" />
       </div>
 
       <div className="facility-card__body">
