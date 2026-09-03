@@ -35,3 +35,21 @@
   position: relative;
   z-index: 1;
 }
+
+.stamp-badge {
+  position: absolute;
+  right: 10px;
+  bottom: -10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px 4px 7px;
+  border-radius: var(--radius-chip);
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.5);
+}
+
+.stamp-badge--ok      { background: var(--color-pine); color: #0E1B14; }
+.stamp-badge--limited { background: var(--color-amber); color: #241804; }
+.stamp-badge--unknown { background: var(--color-ink-soft); color: #14171A; }

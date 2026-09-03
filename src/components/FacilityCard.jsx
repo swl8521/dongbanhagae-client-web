@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { PawPrint, Navigation } from 'lucide-react';
+import { PawPrint, Navigation, Eye, Clock } from 'lucide-react';
 import ConditionStamp from './ConditionStamp';
 import ConditionTags from './ConditionTags';
 import FavoriteButton from './FavoriteButton';
@@ -26,6 +26,7 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
     addr1,
     firstimage,
     recommendCount = 0,
+    viewCount = 0,
     dist,
     modifiedtime,
   } = item;
@@ -41,11 +42,12 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
       state={{ from: `${location.pathname}${location.search}` }}
       className={`facility-card${highlighted ? ' facility-card--highlighted' : ''}`}
     >
-      <div className="facility-card__thumb">
+      <div className="facility-card__photo">
         {firstimage
           ? <img src={firstimage} alt={title} loading="lazy" />
-          : <div className="facility-card__thumb--placeholder"><PawPrint size={28} strokeWidth={1.75} /></div>}
+          : <div className="facility-card__photo--placeholder"><PawPrint size={32} strokeWidth={1.75} /></div>}
         <FavoriteButton contentId={contentid} size={14} className="facility-card__fav" />
+        <ConditionStamp status={guessPetStatus(item)} variant="badge" />
       </div>
 
       <div className="facility-card__body">
@@ -60,15 +62,24 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
           )}
         </div>
         <ConditionTags item={item} limit={2} />
-        <RecommendButton
-          contentId={contentid}
-          count={recommendCount}
-          onChange={(nextCount) => onRecommendChange?.(contentid, { recommendCount: nextCount })}
-        />
+        <div className="facility-card__meta">
+          <RecommendButton
+            contentId={contentid}
+            count={recommendCount}
+            onChange={(nextCount) => onRecommendChange?.(contentid, { recommendCount: nextCount })}
+          />
+          <span className="facility-card__meta-item">
+            <Eye size={14} strokeWidth={2.25} />
+            {viewCount}
+          </span>
+          {modifiedDate && (
+            <span className="facility-card__meta-item facility-card__meta-date">
+              <Clock size={13} strokeWidth={2.25} />
+              {modifiedDate}
+            </span>
+          )}
+        </div>
       </div>
-
-      <ConditionStamp status={guessPetStatus(item)} />
-      {modifiedDate && <p className="facility-card__modified">갱신 {modifiedDate}</p>}
     </Link>
   );
 }
