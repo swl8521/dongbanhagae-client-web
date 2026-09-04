@@ -60,6 +60,6 @@
   box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.6);
 }
 
-.stamp-badge--ok      { background: var(--color-bg); color: var(--color-pine); border-color: var(--color-pine); }
+.stamp-badge--ok      { background: var(--color-pine-strong); color: #fff; }
 .stamp-badge--limited { background: var(--color-amber); color: #241804; }
 .stamp-badge--unknown { background: var(--color-ink-soft); color: #14171A; }
