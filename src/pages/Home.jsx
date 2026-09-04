@@ -312,9 +312,7 @@ export default function Home() {
                 <>
                   <p className="home__lede">우리 아이와 갈 수 있는 곳을 찾아보세요</p>
                   <p className="home__dog-summary">
-                    {[activeDog.name, activeDog.breed, activeDog.weightKg ? `${activeDog.weightKg}kg` : null]
-                      .filter(Boolean)
-                      .join(' · ')}
+                    {[activeDog.name, activeDog.breed].filter(Boolean).join(' · ')}
                   </p>
                   {items.length > 0 && (
                     <p className="home__nearby-count">

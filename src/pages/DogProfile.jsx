@@ -4,7 +4,7 @@ import { ArrowLeft, PawPrint, Check, Trash2 } from 'lucide-react';
 import { useDogProfiles, DOG_SIZE_OPTIONS } from '../lib/dogProfileStore';
 import './DogProfile.css';
 
-const EMPTY_FORM = { name: '', breed: '', sizeClass: 'small', weightKg: '' };
+const EMPTY_FORM = { name: '', breed: '', sizeClass: 'small' };
 
 export default function DogProfile() {
   const { dogs, activeId, add, update, remove, setActive } = useDogProfiles();
@@ -25,7 +25,6 @@ export default function DogProfile() {
       name,
       breed: form.breed.trim(),
       sizeClass: form.sizeClass,
-      weightKg: form.weightKg ? Number(form.weightKg) : null,
     };
 
     if (editingId) update(editingId, payload);
@@ -39,7 +38,6 @@ export default function DogProfile() {
       name: dog.name,
       breed: dog.breed || '',
       sizeClass: dog.sizeClass,
-      weightKg: dog.weightKg ?? '',
     });
     setEditingId(dog.id);
   }
@@ -80,7 +78,6 @@ export default function DogProfile() {
                 </span>
                 <span className="dog-profile__item-meta">
                   {DOG_SIZE_OPTIONS.find((opt) => opt.value === dog.sizeClass)?.label}
-                  {dog.weightKg ? ` · ${dog.weightKg}kg` : ''}
                   {dog.breed ? ` · ${dog.breed}` : ''}
                 </span>
               </button>
@@ -136,18 +133,6 @@ export default function DogProfile() {
             ))}
           </div>
         </div>
-
-        <label>
-          몸무게 kg (선택)
-          <input
-            type="number"
-            min="0"
-            step="0.1"
-            value={form.weightKg}
-            onChange={(e) => setForm((f) => ({ ...f, weightKg: e.target.value }))}
-            placeholder="예: 32"
-          />
-        </label>
 
         <div className="dog-profile__form-actions">
           {editingId && (

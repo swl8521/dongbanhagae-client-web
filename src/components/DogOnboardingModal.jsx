@@ -8,7 +8,7 @@ import './DogOnboardingModal.css';
 // "나중에 할게요"를 누르면 dogOnboardingStore에 플래그를 남겨 다음 방문부터는 뜨지 않는다.
 export default function DogOnboardingModal({ onClose }) {
   const { add } = useDogProfiles();
-  const [form, setForm] = useState({ name: '', breed: '', sizeClass: 'small', weightKg: '' });
+  const [form, setForm] = useState({ name: '', breed: '', sizeClass: 'small' });
 
   useEffect(() => {
     const prevOverflow = document.body.style.overflow;
@@ -32,7 +32,6 @@ export default function DogOnboardingModal({ onClose }) {
       name,
       breed: form.breed.trim(),
       sizeClass: form.sizeClass,
-      weightKg: form.weightKg ? Number(form.weightKg) : null,
     });
     onClose();
   }
@@ -92,18 +91,6 @@ export default function DogOnboardingModal({ onClose }) {
               ))}
             </div>
           </div>
-
-          <label>
-            몸무게 kg (선택)
-            <input
-              type="number"
-              min="0"
-              step="0.1"
-              value={form.weightKg}
-              onChange={(e) => setForm((f) => ({ ...f, weightKg: e.target.value }))}
-              placeholder="예: 32"
-            />
-          </label>
 
           <div className="dog-onboarding__actions">
             <button type="button" className="dog-onboarding__skip" onClick={handleSkip}>
