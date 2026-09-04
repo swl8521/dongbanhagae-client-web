@@ -214,10 +214,14 @@ export default function Home() {
     );
   }
 
-  // 필터/좌표 없이 처음 들어온 방문(공유 링크 등으로 특정 조건과 함께 들어온 게 아닌 경우)에는
-  // 위치 권한을 먼저 물어보고, 허용하면 바로 내 주변 결과를 보여준다. 거부/미지원이면
-  // 아무 안내 없이 기존 전국 기본 화면을 그대로 둔다 - 한 번 시도했으면 다시 자동으로 묻지 않는다.
+  // 진입 플로우: 강아지 프로필 등록(온보딩 모달) -> 위치 정보 동의 순서로 묻는다.
+  // 온보딩 모달이 떠 있는 동안은 위치 권한 팝업을 띄우지 않고, 모달이 닫히면
+  // (등록 완료든 "나중에 할게요"든) 그 다음에 한 번 자동으로 물어본다. 필터/좌표 없이
+  // 처음 들어온 방문(공유 링크 등으로 특정 조건과 함께 들어온 게 아닌 경우)에만 해당하고,
+  // 허용하면 바로 내 주변 결과를 보여주며 거부/미지원이면 아무 안내 없이 기존 전국
+  // 기본 화면을 그대로 둔다 - 한 번 시도했으면 다시 자동으로 묻지 않는다.
   useEffect(() => {
+    if (showDogOnboarding) return;
     if (searchParams.toString() !== '') return;
     if (hasAutoPromptedLocation()) return;
     markAutoPromptedLocation();
@@ -231,7 +235,7 @@ export default function Home() {
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 5 * 60 * 1000 }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [showDogOnboarding]);
 
   const [areaCounts, setAreaCounts] = useState({});
 
