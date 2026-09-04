@@ -37,27 +37,27 @@
 }
 
 .stamp-badge {
-  /* 카드 사진 높이(160px)의 절반 정도 크기로 도장을 배치 */
+  /* 목록 카드가 작은 정사각 썸네일(96px)로 바뀌면서 도장도 그에 맞춰 축소 */
   position: absolute;
-  right: 10px;
-  bottom: 10px;
-  width: 80px;
-  height: 80px;
+  right: 4px;
+  bottom: 4px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 6px;
-  border: 4px solid var(--color-bg);
+  gap: 1px;
+  padding: 2px;
+  border: 2px solid var(--color-bg);
   transform: rotate(-6deg);
   font-weight: 800;
-  font-size: 13px;
-  line-height: 1.15;
+  font-size: 7px;
+  line-height: 1.05;
   letter-spacing: -0.01em;
   text-align: center;
-  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.6);
 }
 
 .stamp-badge--ok      { background: var(--color-pine); color: #0E1B14; }

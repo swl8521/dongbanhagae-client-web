@@ -41,10 +41,11 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
       <div className="facility-card__photo">
         {firstimage
           ? <img src={firstimage} alt={title} loading="lazy" />
-          : <div className="facility-card__photo--placeholder"><PawPrint size={32} strokeWidth={1.75} /></div>}
-        <FavoriteButton contentId={contentid} size={14} className="facility-card__fav" />
+          : <div className="facility-card__photo--placeholder"><PawPrint size={24} strokeWidth={1.75} /></div>}
         <ConditionStamp status={readPetStatus(contentid) ?? guessPetStatus(item)} variant="badge" />
       </div>
+
+      <FavoriteButton contentId={contentid} size={14} className="facility-card__fav" />
 
       <div className="facility-card__body">
         <h3 className="facility-card__title">{title}</h3>
