@@ -16,9 +16,10 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      # TODO(임시 진단용): npm ci가 캐시 히트 상태에서도 계속 5분씩 걸리는 원인을
-      # 확인하려고 http 요청 단위 타이밍 로그를 잠깐 켠다. 원인 파악 후 되돌릴 것.
-      - run: npm ci --loglevel http
+      # npm ci가 자동으로 호출하는 취약점 감사(POST /-/npm/v1/security/advisories/bulk)가
+      # 이 환경에서 4분 넘게 걸려 빌드 시간 대부분을 차지하고 있었다(캐시 히트/미스와 무관).
+      # 감사가 설치를 막는 것도 아니라서 --no-audit으로 건너뛴다.
+      - run: npm ci --no-audit
 
       - run: npm run build
         env:
