@@ -1,0 +1,208 @@
+.dog-profile {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+.dog-profile__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.dog-profile__header {
+  margin-bottom: 20px;
+}
+
+.dog-profile__header h1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 28px;
+  color: var(--color-amber);
+}
+
+.dog-profile__lede {
+  color: var(--color-ink-soft);
+  margin: 6px 0 0;
+  line-height: 1.5;
+}
+
+.dog-profile__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.dog-profile__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  padding: 12px 14px;
+}
+
+.dog-profile__item--active {
+  border-color: var(--color-pine);
+}
+
+.dog-profile__item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+}
+
+.dog-profile__item-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-pine-dark);
+}
+
+.dog-profile__item--active .dog-profile__item-name {
+  color: var(--color-pine);
+}
+
+.dog-profile__item-meta {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+.dog-profile__item-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.dog-profile__item-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radius-chip);
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-size: 12px;
+}
+
+.dog-profile__hint {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+  margin: 0 0 20px;
+}
+
+.dog-profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+  padding: 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+
+.dog-profile__form h2 {
+  font-size: 16px;
+}
+
+.dog-profile__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+.dog-profile__form input {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(20, 23, 26, 0.15);
+  background: #fff;
+  color: #14171a;
+  font-size: 14px;
+}
+
+.dog-profile__form input::placeholder {
+  color: #6b726c;
+}
+
+.dog-profile__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dog-profile__field-label {
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+/* 폼 패널 배경이 .chip 기본 배경(--color-surface)과 같은 색이라, 이 안에서는
+   버튼 배경을 --color-bg로 낮춰 입력창처럼 또렷하게 구분되도록 한다. */
+.dog-profile__size-chips .chip {
+  background: var(--color-bg);
+  border-color: rgba(154, 163, 155, 0.4);
+  color: var(--color-ink);
+}
+
+.dog-profile__size-chips .chip--active {
+  background: var(--color-pine-strong);
+  border-color: var(--color-pine-strong);
+  color: #fff;
+}
+
+.dog-profile__size-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dog-profile__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.dog-profile__cancel {
+  padding: 10px 16px;
+  border-radius: var(--radius-chip);
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+}
+
+.dog-profile__submit {
+  padding: 10px 20px;
+  border-radius: var(--radius-chip);
+  border: none;
+  background: var(--color-pine-strong);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}

@@ -15,18 +15,43 @@
   gap: 12px;
 }
 
-.home__favorites-link {
+.home__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.home__favorites-link,
+.home__dog-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
   height: 40px;
-  border-radius: 50%;
+  min-width: 40px;
+  padding: 0 12px;
+  border-radius: 999px;
   border: 1px solid var(--color-line);
   background: var(--color-surface);
-  color: var(--color-coral);
   flex-shrink: 0;
   text-decoration: none;
+}
+
+.home__favorites-link {
+  width: 40px;
+  padding: 0;
+  color: var(--color-coral);
+}
+
+.home__dog-link {
+  gap: 6px;
+  color: var(--color-amber);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.home__dog-link-name {
+  color: var(--color-ink);
 }
 
 .home__eyebrow {

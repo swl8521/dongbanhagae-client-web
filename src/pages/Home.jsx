@@ -1,14 +1,17 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Heart, LocateFixed, Route } from 'lucide-react';
+import { Heart, LocateFixed, PawPrint, Route } from 'lucide-react';
 import { usePetFacilities } from '../hooks/usePetFacilities';
 import { useDragScroll } from '../hooks/useDragScroll';
 import { fetchAreaCounts } from '../api/client';
 import { useLocalSet } from '../lib/localSetStore';
 import { favoritesStore } from '../lib/favoritesStore';
+import { useDogProfiles } from '../lib/dogProfileStore';
+import { isDogOnboardingDismissed } from '../lib/dogOnboardingStore';
 import { readHomeListCache, writeHomeListCache } from '../lib/homeListCache';
 import FacilityCard from '../components/FacilityCard';
 import MapView from '../components/MapView';
+import DogOnboardingModal from '../components/DogOnboardingModal';
 import './Home.css';
 
 const SORT_OPTIONS = [
@@ -134,6 +137,11 @@ export default function Home() {
     cacheKey,
   });
   const { has: isFavorite } = useLocalSet(favoritesStore);
+  const { dogs, activeDog } = useDogProfiles();
+  // 강아지 프로필이 하나도 없는 상태로 들어오면 온보딩 모달을 띄운다.
+  // "나중에 할게요"로 닫으면 dismissed가 true가 되어 다음 방문부터는 뜨지 않는다.
+  const [onboardingDismissed, setOnboardingDismissed] = useState(isDogOnboardingDismissed);
+  const showDogOnboarding = dogs.length === 0 && !onboardingDismissed;
 
   // 상세화면에서 돌아왔을 때 저장해둔 스크롤 위치로 복원한다 - 컴포넌트가 마운트될 때 한 번만.
   const restoredScrollRef = useRef(false);
@@ -261,6 +269,10 @@ export default function Home() {
 
   return (
     <div className="home">
+      {showDogOnboarding && (
+        <DogOnboardingModal onClose={() => setOnboardingDismissed(true)} />
+      )}
+
       <header className="home__header">
         <div className="home__header-top">
           <div>
@@ -273,9 +285,15 @@ export default function Home() {
             </h1>
             <p className="home__lede">미리미리 확인해요!</p>
           </div>
-          <Link to="/favorites" className="home__favorites-link" aria-label="즐겨찾기 목록">
-            <Heart size={20} strokeWidth={2} />
-          </Link>
+          <div className="home__header-actions">
+            <Link to="/dog-profile" className="home__dog-link" aria-label="강아지 프로필">
+              <PawPrint size={20} strokeWidth={2} />
+              {activeDog && <span className="home__dog-link-name">{activeDog.name}</span>}
+            </Link>
+            <Link to="/favorites" className="home__favorites-link" aria-label="즐겨찾기 목록">
+              <Heart size={20} strokeWidth={2} />
+            </Link>
+          </div>
         </div>
 
         <form

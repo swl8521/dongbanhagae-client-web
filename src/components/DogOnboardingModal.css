@@ -1,0 +1,148 @@
+.dog-onboarding {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.dog-onboarding__backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  padding: 0;
+  background: rgba(10, 12, 10, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.dog-onboarding__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px 20px calc(20px + env(safe-area-inset-bottom));
+  /* 어두운 딤 배경(rgba(10,12,10,0.72)) 위에서 --color-surface(올리브그린)는
+     톤이 너무 가까워 묻혀 보였다. 여권 표지를 연상시키는 따뜻한 카멜/브라운 톤으로
+     바꿔 배경과 뚜렷이 분리되게 한다. */
+  background: #3a3226;
+  border: 1px solid #4a4030;
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 480px) {
+  .dog-onboarding {
+    align-items: center;
+  }
+
+  .dog-onboarding__panel {
+    border-bottom: 1px solid #4a4030;
+    border-radius: var(--radius-card);
+  }
+}
+
+.dog-onboarding__icon {
+  color: var(--color-amber);
+}
+
+.dog-onboarding__panel h2 {
+  font-size: 19px;
+  margin-top: 10px;
+}
+
+.dog-onboarding__lede {
+  color: var(--color-ink-soft);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 6px 0 0;
+}
+
+.dog-onboarding__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.dog-onboarding__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-ink);
+}
+
+.dog-onboarding__form input {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(20, 23, 26, 0.15);
+  background: #fff;
+  color: #14171a;
+  font-size: 14px;
+}
+
+.dog-onboarding__form input::placeholder {
+  color: #6b726c;
+}
+
+.dog-onboarding__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dog-onboarding__field-label {
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+.dog-onboarding__size-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 모달 패널 배경이 .chip 기본 배경(--color-surface)과 같은 색이라, 이 안에서는
+   버튼 배경을 --color-bg로 낮춰 입력창처럼 또렷하게 구분되도록 한다. */
+.dog-onboarding__size-chips .chip {
+  background: var(--color-bg);
+  border-color: rgba(154, 163, 155, 0.4);
+  color: var(--color-ink);
+}
+
+.dog-onboarding__size-chips .chip--active {
+  background: var(--color-pine-strong);
+  border-color: var(--color-pine-strong);
+  color: #fff;
+}
+
+.dog-onboarding__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.dog-onboarding__skip {
+  padding: 10px 14px;
+  border-radius: var(--radius-chip);
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+}
+
+.dog-onboarding__submit {
+  padding: 10px 20px;
+  border-radius: var(--radius-chip);
+  border: none;
+  background: var(--color-pine-strong);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}

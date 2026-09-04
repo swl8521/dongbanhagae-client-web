@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PawPrint, Navigation, Eye, Clock } from 'lucide-react';
 import ConditionStamp from './ConditionStamp';
 import ConditionTags from './ConditionTags';
+import DogVisitBadge from './DogVisitBadge';
 import FavoriteButton from './FavoriteButton';
 import RecommendButton from './RecommendButton';
 import { formatDistance } from '../lib/formatDistance';
@@ -44,6 +45,7 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
 
       <div className="facility-card__body">
         <h3 className="facility-card__title">{title}</h3>
+        <DogVisitBadge item={item} compact />
         <div className="facility-card__addr-row">
           <p className="facility-card__addr">{addr1 || '주소 정보 없음'}</p>
           {distanceLabel && (

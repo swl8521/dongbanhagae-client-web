@@ -26,6 +26,10 @@
   line-height: 1.3;
 }
 
+.detail__head + .dog-visit-badge {
+  margin-top: 8px;
+}
+
 .detail__addr {
   color: var(--color-ink-soft);
   line-height: 1.5;

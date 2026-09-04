@@ -8,6 +8,7 @@ import { guessPetStatus } from '../lib/petStatus';
 import { writePetStatus } from '../lib/petStatusCache';
 import ConditionStamp from '../components/ConditionStamp';
 import ConditionTags from '../components/ConditionTags';
+import DogVisitBadge from '../components/DogVisitBadge';
 import FavoriteButton from '../components/FavoriteButton';
 import RecommendButton from '../components/RecommendButton';
 import ImageGallery from '../components/ImageGallery';
@@ -67,6 +68,7 @@ export default function FacilityDetail() {
         <h1>{common.title}</h1>
         <ConditionStamp status={guessPetStatus(pet)} />
       </div>
+      <DogVisitBadge item={pet} />
 
       <p className="detail__addr">{common.addr1} {common.addr2}</p>
       {modifiedDate && <p className="detail__modified">정보 갱신: {modifiedDate}</p>}
