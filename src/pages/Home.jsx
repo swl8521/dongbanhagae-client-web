@@ -8,6 +8,7 @@ import { useLocalSet } from '../lib/localSetStore';
 import { favoritesStore } from '../lib/favoritesStore';
 import { useDogProfiles } from '../lib/dogProfileStore';
 import { isDogOnboardingDismissed } from '../lib/dogOnboardingStore';
+import { hasAutoPromptedLocation, markAutoPromptedLocation } from '../lib/geoAutoPromptStore';
 import { readHomeListCache, writeHomeListCache } from '../lib/homeListCache';
 import FacilityCard from '../components/FacilityCard';
 import MapView from '../components/MapView';
@@ -213,6 +214,25 @@ export default function Home() {
     );
   }
 
+  // 필터/좌표 없이 처음 들어온 방문(공유 링크 등으로 특정 조건과 함께 들어온 게 아닌 경우)에는
+  // 위치 권한을 먼저 물어보고, 허용하면 바로 내 주변 결과를 보여준다. 거부/미지원이면
+  // 아무 안내 없이 기존 전국 기본 화면을 그대로 둔다 - 한 번 시도했으면 다시 자동으로 묻지 않는다.
+  useEffect(() => {
+    if (searchParams.toString() !== '') return;
+    if (hasAutoPromptedLocation()) return;
+    markAutoPromptedLocation();
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        updateParams({ lat: position.coords.latitude, lng: position.coords.longitude });
+      },
+      () => {},
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 5 * 60 * 1000 }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [areaCounts, setAreaCounts] = useState({});
 
   useEffect(() => {
@@ -283,7 +303,25 @@ export default function Home() {
                 <Route size={20} strokeWidth={2} />
               </span>
             </h1>
-            <p className="home__lede">미리미리 확인해요!</p>
+            <div className="home__lede-group">
+              {activeDog ? (
+                <>
+                  <p className="home__lede">우리 아이와 갈 수 있는 곳을 찾아보세요</p>
+                  <p className="home__dog-summary">
+                    {[activeDog.name, activeDog.breed, activeDog.weightKg ? `${activeDog.weightKg}kg` : null]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </p>
+                  {items.length > 0 && (
+                    <p className="home__nearby-count">
+                      {coords ? '주변' : '전체'} {totalCount.toLocaleString()}곳
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className="home__lede">미리미리 확인해요!</p>
+              )}
+            </div>
           </div>
           <div className="home__header-actions">
             <Link to="/dog-profile" className="home__dog-link" aria-label="강아지 프로필">
@@ -381,12 +419,20 @@ export default function Home() {
           markers={markers}
           onMarkerClick={handleMarkerClick}
           onUserMoveEnd={handleMapMoved}
+          activeDog={activeDog}
         />
         {pendingCenter && (
           <button type="button" className="home__research-btn" onClick={handleResearchHere}>
             <LocateFixed size={13} strokeWidth={2.25} />
             이 지역 재검색
           </button>
+        )}
+        {activeDog && (
+          <ul className="home__map-legend">
+            <li><span className="home__map-legend-dot home__map-legend-dot--ok" />방문 가능</li>
+            <li><span className="home__map-legend-dot home__map-legend-dot--caution" />조건 확인 필요</li>
+            <li><span className="home__map-legend-dot home__map-legend-dot--unknown" />정보 확인 필요</li>
+          </ul>
         )}
       </div>
 

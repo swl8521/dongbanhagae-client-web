@@ -83,9 +83,27 @@
   flex-shrink: 0;
 }
 
+.home__lede-group {
+  margin: 6px 0 18px;
+}
+
 .home__lede {
   color: var(--color-ink-soft);
-  margin: 6px 0 18px;
+  margin: 0;
+}
+
+.home__dog-summary {
+  color: var(--color-pine);
+  font-weight: 600;
+  font-size: 14px;
+  margin: 4px 0 0;
+}
+
+.home__nearby-count {
+  color: var(--color-ink);
+  font-weight: 700;
+  font-size: 15px;
+  margin: 6px 0 0;
 }
 
 .home__search {
@@ -217,6 +235,42 @@
   font-weight: 600;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
+
+.home__map-legend {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  list-style: none;
+  border-radius: 10px;
+  background: rgba(20, 23, 26, 0.85);
+  backdrop-filter: blur(2px);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.home__map-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.home__map-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.home__map-legend-dot--ok { background: var(--color-pine-strong); }
+.home__map-legend-dot--caution { background: var(--color-amber); }
+.home__map-legend-dot--unknown { background: var(--color-ink-soft); }
 
 .home__list-meta {
   display: flex;

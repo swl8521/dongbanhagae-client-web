@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Map as MaplibreMap, Marker, Popup, NavigationControl, setWorkerUrl } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createFacilityMarkerElement } from '../lib/facilityMarkerIcon';
+import { evaluateDogVisit } from '../lib/dogVisitMatch';
 import './MapView.css';
 
 // maplibre-gl은 워커 스크립트를 import.meta.url 기준 동적 경로로 찾는데, Vite 프로덕션
@@ -18,7 +19,7 @@ const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 // 이 스타일에 포함된 국가/행정구역 경계선 레이어. 남북 분단선이 지도에서 과하게 도드라져서 끈다.
 const BOUNDARY_LAYER_IDS = ['boundary_2', 'boundary_3', 'boundary_disputed'];
 
-export default function MapView({ center, zoom, markers, onMarkerClick, onUserMoveEnd }) {
+export default function MapView({ center, zoom, markers, onMarkerClick, onUserMoveEnd, activeDog }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]);
@@ -79,7 +80,8 @@ export default function MapView({ center, zoom, markers, onMarkerClick, onUserMo
     markersRef.current.forEach((m) => m.remove());
 
     markersRef.current = markers.map((item) => {
-      const el = createFacilityMarkerElement(item.contenttypeid);
+      const visit = activeDog ? evaluateDogVisit(activeDog, item) : null;
+      const el = createFacilityMarkerElement(item.contenttypeid, visit?.level);
       el.style.cursor = 'pointer';
 
       const marker = new Marker({ element: el })
@@ -93,7 +95,7 @@ export default function MapView({ center, zoom, markers, onMarkerClick, onUserMo
 
       return marker;
     });
-  }, [markers, onMarkerClick]);
+  }, [markers, onMarkerClick, activeDog]);
 
   return <div ref={containerRef} className="map-view" />;
 }
