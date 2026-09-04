@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Heart, LocateFixed, Route } from 'lucide-react';
 import { usePetFacilities } from '../hooks/usePetFacilities';
+import { useDragScroll } from '../hooks/useDragScroll';
 import { fetchAreaCounts } from '../api/client';
 import { useLocalSet } from '../lib/localSetStore';
 import { favoritesStore } from '../lib/favoritesStore';
@@ -94,6 +95,11 @@ export default function Home() {
   // 내 주변 모드에서 사용자가 지도를 직접 옮겼을 때, 그 지점을 바로 검색하지 않고
   // "이 지역 재검색" 버튼을 눌러야 반영되도록 대기시켜두는 좌표.
   const [pendingCenter, setPendingCenter] = useState(null);
+
+  // 가로 스크롤되는 필터 칩 목록들을 마우스로 눌러 끌어서 이동할 수 있게 한다.
+  const areaFiltersRef = useDragScroll();
+  const radiusFiltersRef = useDragScroll();
+  const typeFiltersRef = useDragScroll();
 
   // lat/lng가 바뀌면(재검색 적용, 내 주변 새로 클릭, 위치 필터 해제 등) 대기 중이던 좌표는 의미가 없어진다.
   useEffect(() => {
@@ -289,7 +295,7 @@ export default function Home() {
           <button type="submit">검색</button>
         </form>
 
-        <div className="home__filters">
+        <div className="home__filters" ref={areaFiltersRef}>
           <button
             type="button"
             className={`chip chip--location ${coords ? 'chip--active' : ''}`}
@@ -318,7 +324,7 @@ export default function Home() {
         </div>
 
         {coords && (
-          <div className="home__filters home__filters--radius">
+          <div className="home__filters home__filters--radius" ref={radiusFiltersRef}>
             {RADIUS_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
@@ -332,7 +338,7 @@ export default function Home() {
           </div>
         )}
 
-        <div className="home__filters home__filters--type">
+        <div className="home__filters home__filters--type" ref={typeFiltersRef}>
           {CONTENT_TYPE_OPTIONS.map((opt) => (
             <button
               key={opt.code}

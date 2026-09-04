@@ -102,6 +102,11 @@
   /* 스크롤 컨테이너 안에서도 포커스 링/active 배경이 잘리지 않도록 여유를 둔다 */
   margin: -2px -16px 0;
   padding: 2px 16px 0;
+  cursor: grab;
+}
+
+.home__filters:active {
+  cursor: grabbing;
 }
 
 .home__filters::-webkit-scrollbar {
