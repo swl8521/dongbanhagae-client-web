@@ -16,7 +16,9 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - run: npm ci
+      # TODO(임시 진단용): npm ci가 캐시 히트 상태에서도 계속 5분씩 걸리는 원인을
+      # 확인하려고 http 요청 단위 타이밍 로그를 잠깐 켠다. 원인 파악 후 되돌릴 것.
+      - run: npm ci --loglevel http
 
       - run: npm run build
         env:
