@@ -12,7 +12,7 @@ export default function ConditionStamp({ status = 'unknown', label, variant = 's
   const text = {
     ok: '동반 가능',
     limited: '조건부 가능',
-    unknown: '조회필요!',
+    unknown: '정보 없음',
   }[status];
 
   if (variant === 'badge') {

@@ -3,7 +3,13 @@
 // 지금은 방어적으로 여러 후보 키를 확인하고, 없으면 'unknown' 처리.
 export function guessPetStatus(item) {
   const raw = (item?.acmpyPsblCpam || item?.acmpyTypeCd || '').toString();
-  if (!raw) return 'unknown';
-  if (raw.includes('가능') || raw.includes('전체')) return 'ok';
-  return 'limited';
+  if (raw) {
+    if (raw.includes('가능') || raw.includes('전체')) return 'ok';
+    return 'limited';
+  }
+  // acmpyPsblCpam/acmpyTypeCd가 비어 있어도 etcAcmpyInfo(예: "장애우 안내견만 이용가능")에
+  // 실제 동반 조건 텍스트가 있으면 그건 정보가 없는 게 아니라 조건부 정보가 있는 것이므로
+  // "조회필요"(unknown) 대신 조건부로 처리한다.
+  if ((item?.etcAcmpyInfo || item?.acmpyNeedMtr || '').toString().trim()) return 'limited';
+  return 'unknown';
 }
