@@ -8,7 +8,7 @@ import RecommendButton from './RecommendButton';
 import { formatDistance } from '../lib/formatDistance';
 import { formatModifiedDate } from '../lib/formatModifiedDate';
 import { guessPetStatus } from '../lib/petStatus';
-import { readPetStatus } from '../lib/petStatusCache';
+import { readPetStatus, readPetData } from '../lib/petStatusCache';
 import './FacilityCard.css';
 
 export default function FacilityCard({ item, onRecommendChange, highlighted }) {
@@ -27,6 +27,9 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
   const distanceLabel = formatDistance(dist);
   const modifiedDate = formatModifiedDate(modifiedtime);
   const location = useLocation();
+  // 상세화면에서 이미 조회한 곳이면, 목록 API의 부분적인 필드 대신 상세 조회 때 받은
+  // 전체 pet 데이터로 배지/태그를 그려서 뒤로가기 시에도 실제 상태가 바로 반영되게 한다.
+  const petData = readPetData(contentid) ?? item;
 
   return (
     <Link
@@ -45,7 +48,7 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
 
       <div className="facility-card__body">
         <h3 className="facility-card__title">{title}</h3>
-        <DogVisitBadge item={item} compact />
+        <DogVisitBadge item={petData} compact />
         <div className="facility-card__addr-row">
           <p className="facility-card__addr">{addr1 || '주소 정보 없음'}</p>
           {distanceLabel && (
@@ -55,7 +58,7 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
             </span>
           )}
         </div>
-        <ConditionTags item={item} limit={2} />
+        <ConditionTags item={petData} limit={2} />
         <div className="facility-card__meta">
           <RecommendButton
             contentId={contentid}

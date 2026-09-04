@@ -5,7 +5,7 @@ import { fetchPetFacilityDetail } from '../api/client';
 import { getFriendlyErrorMessage } from '../lib/errorMessage';
 import { formatModifiedDate } from '../lib/formatModifiedDate';
 import { guessPetStatus } from '../lib/petStatus';
-import { writePetStatus } from '../lib/petStatusCache';
+import { writePetStatus, writePetData } from '../lib/petStatusCache';
 import ConditionStamp from '../components/ConditionStamp';
 import ConditionTags from '../components/ConditionTags';
 import DogVisitBadge from '../components/DogVisitBadge';
@@ -40,6 +40,7 @@ export default function FacilityDetail() {
         // 목록 API에는 없는 필드까지 포함된 실제 조회 결과이므로, 뒤로가기로 돌아간
         // 목록 카드가 다시 "조회필요"로 보이지 않도록 확인된 상태를 캐시에 남긴다.
         writePetStatus(contentId, guessPetStatus(res.pet));
+        writePetData(contentId, res.pet);
       })
       .catch((err) => {
         setError(getFriendlyErrorMessage(err));
