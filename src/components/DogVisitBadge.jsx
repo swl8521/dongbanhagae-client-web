@@ -1,5 +1,6 @@
 import { useDogProfiles } from '../lib/dogProfileStore';
 import { evaluateDogVisit } from '../lib/dogVisitMatch';
+import { waGwa } from '../lib/koreanParticle';
 import './DogVisitBadge.css';
 
 // 등록된 "대표 강아지" 기준으로 이 장소가 방문 가능한지 보여주는 개인화 배지.
@@ -12,7 +13,9 @@ export default function DogVisitBadge({ item, compact }) {
   const result = evaluateDogVisit(activeDog, item);
   if (!result || result.level === 'unknown') return null;
 
-  const text = result.level === 'ok' ? `${activeDog.name}와 방문 가능` : '방문 전 확인 필요';
+  const text = result.level === 'ok'
+    ? `${activeDog.name}${waGwa(activeDog.name)} 방문 가능`
+    : '방문 전 확인 필요';
 
   return (
     <div className={`dog-visit-badge dog-visit-badge--${result.level}`}>
