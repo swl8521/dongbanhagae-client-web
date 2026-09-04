@@ -6,11 +6,13 @@ import './ReportIssueForm.css';
 
 const MAX_LENGTH = 300;
 
-export default function ReportIssueForm({ contentId }) {
+export default function ReportIssueForm({ contentId, reportCount = 0 }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('idle'); // idle | submitting | done | error
   const [error, setError] = useState(null);
+  // 서버 응답으로 내려오는 최신 건수로 갱신 - 내가 방금 제출한 것도 바로 반영되게.
+  const [count, setCount] = useState(reportCount);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -18,7 +20,8 @@ export default function ReportIssueForm({ contentId }) {
 
     setStatus('submitting');
     try {
-      await reportFacilityIssue(contentId, message.trim());
+      const res = await reportFacilityIssue(contentId, message.trim());
+      if (typeof res?.reportCount === 'number') setCount(res.reportCount);
       setStatus('done');
     } catch (err) {
       setError(getFriendlyErrorMessage(err));
@@ -27,7 +30,12 @@ export default function ReportIssueForm({ contentId }) {
   }
 
   if (status === 'done') {
-    return <p className="report-form__done">제보 감사합니다! 확인 후 정보에 반영할게요.</p>;
+    return (
+      <p className="report-form__done">
+        제보 감사합니다! 확인 후 정보에 반영할게요.
+        {count > 0 && <span className="report-form__count"> (지금까지 {count}건 접수)</span>}
+      </p>
+    );
   }
 
   if (!open) {
@@ -35,6 +43,7 @@ export default function ReportIssueForm({ contentId }) {
       <button type="button" className="report-form__trigger" onClick={() => setOpen(true)}>
         <Flag size={13} strokeWidth={2.25} />
         이 정보가 실제와 달라요
+        {count > 0 && <span className="report-form__count">{count}건 접수됨</span>}
       </button>
     );
   }

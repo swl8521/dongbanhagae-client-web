@@ -75,3 +75,9 @@
   font-size: 12px;
   color: var(--color-pine);
 }
+
+.report-form__count {
+  color: var(--color-ink-soft);
+  font-weight: 600;
+  text-decoration: none;
+}

@@ -131,7 +131,7 @@ export default function FacilityDetail() {
           )}
         </div>
 
-        <ReportIssueForm contentId={contentId} />
+        <ReportIssueForm contentId={contentId} reportCount={stats?.reportCount ?? 0} />
       </section>
     </div>
   );
