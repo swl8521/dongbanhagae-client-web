@@ -19,10 +19,18 @@ const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 // 이 스타일에 포함된 국가/행정구역 경계선 레이어. 남북 분단선이 지도에서 과하게 도드라져서 끈다.
 const BOUNDARY_LAYER_IDS = ['boundary_2', 'boundary_3', 'boundary_disputed'];
 
-export default function MapView({ center, zoom, markers, onMarkerClick, onUserMoveEnd, activeDog }) {
+function createUserLocationElement() {
+  const el = document.createElement('div');
+  el.className = 'user-location-marker';
+  el.innerHTML = '<span class="user-location-marker__pulse"></span><span class="user-location-marker__dot"></span>';
+  return el;
+}
+
+export default function MapView({ center, zoom, markers, onMarkerClick, onUserMoveEnd, activeDog, userLocation }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]);
+  const userMarkerRef = useRef(null);
   // 맵 생성 effect는 최초 1번만 도는데 onUserMoveEnd는 매 렌더마다 새로 만들어지는
   // 함수라서, 리스너 안에서 직접 참조하면 항상 최초 렌더의 콜백만 호출된다(stale closure).
   // ref로 감싸 항상 최신 콜백을 가리키게 한다.
@@ -96,6 +104,27 @@ export default function MapView({ center, zoom, markers, onMarkerClick, onUserMo
       return marker;
     });
   }, [markers, onMarkerClick, activeDog]);
+
+  // 내 위치 마커는 하나뿐이라 목록 마커처럼 매번 갈아엎지 않고 위치만 갱신한다.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    if (!userLocation) {
+      userMarkerRef.current?.remove();
+      userMarkerRef.current = null;
+      return;
+    }
+
+    const lngLat = [userLocation.lng, userLocation.lat];
+    if (userMarkerRef.current) {
+      userMarkerRef.current.setLngLat(lngLat);
+    } else {
+      userMarkerRef.current = new Marker({ element: createUserLocationElement() })
+        .setLngLat(lngLat)
+        .addTo(map);
+    }
+  }, [userLocation]);
 
   return <div ref={containerRef} className="map-view" />;
 }

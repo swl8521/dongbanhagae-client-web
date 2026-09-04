@@ -422,6 +422,7 @@ export default function Home() {
           onMarkerClick={handleMarkerClick}
           onUserMoveEnd={handleMapMoved}
           activeDog={activeDog}
+          userLocation={coords ? { lat: coords.mapY, lng: coords.mapX } : null}
         />
         {pendingCenter && (
           <button type="button" className="home__research-btn" onClick={handleResearchHere}>

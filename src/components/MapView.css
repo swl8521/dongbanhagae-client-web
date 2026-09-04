@@ -14,6 +14,34 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
+.user-location-marker {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.user-location-marker__dot {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #4c8dd6;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+}
+
+.user-location-marker__pulse {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: rgba(76, 141, 214, 0.35);
+  animation: user-location-pulse 2s ease-out infinite;
+}
+
+@keyframes user-location-pulse {
+  0% { transform: scale(0.4); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
 /* MapLibre 기본 컨트롤(줌 버튼/attribution/팝업)이 밝은 배경 전제라 다크 테마에 맞게 재도색 */
 .maplibregl-ctrl-group {
   background: var(--color-surface) !important;
