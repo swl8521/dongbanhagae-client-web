@@ -76,8 +76,12 @@ export default function Home() {
   // 이 컴포넌트가 다시 마운트되어도 이전 필터가 그대로 복원되도록 한다.
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // 지역/타입 필터 칩은 중복 선택이 가능해서 URL에는 콤마로 구분된 값으로 저장한다
+  // (예: area=1,31). usePetFacilities/서버에는 이 콤마 문자열을 그대로 넘긴다.
   const areaCode = searchParams.get('area') ?? '';
   const contentTypeId = searchParams.get('contentTypeId') ?? '';
+  const areaCodes = useMemo(() => areaCode.split(',').filter(Boolean), [areaCode]);
+  const contentTypeIds = useMemo(() => contentTypeId.split(',').filter(Boolean), [contentTypeId]);
   const keyword = searchParams.get('keyword') ?? '';
   const sortBy = searchParams.get('sort') ?? 'default';
   const lat = searchParams.get('lat');
@@ -109,6 +113,11 @@ export default function Home() {
   useEffect(() => {
     setPendingCenter(null);
   }, [lat, lng]);
+
+  // 필터 칩 다중 선택: 이미 선택돼있으면 빼고, 아니면 더한다.
+  function toggleInList(list, value) {
+    return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+  }
 
   function updateParams(updates) {
     setSearchParams((prev) => {
@@ -362,23 +371,34 @@ export default function Home() {
             <LocateFixed size={14} strokeWidth={2.25} />
             {locationState === 'requesting' ? '위치 확인 중...' : '내 주변'}
           </button>
-          {AREA_OPTIONS.map((opt) => (
-            <button
-              key={opt.code}
-              className={`chip ${!coords && areaCode === opt.code ? 'chip--active' : ''}`}
-              onClick={() => {
-                setLocationState('idle');
-                setSearchInput('');
-                updateParams({ lat: undefined, lng: undefined, radius: undefined, keyword: undefined, area: opt.code || undefined });
-              }}
-              type="button"
-            >
-              {opt.label}
-              {opt.code in areaCounts && (
-                <span className="chip__count">{areaCounts[opt.code].toLocaleString()}</span>
-              )}
-            </button>
-          ))}
+          {AREA_OPTIONS.map((opt) => {
+            const isAll = opt.code === '';
+            const isActive = !coords && (isAll ? areaCodes.length === 0 : areaCodes.includes(opt.code));
+            return (
+              <button
+                key={opt.code}
+                className={`chip ${isActive ? 'chip--active' : ''}`}
+                onClick={() => {
+                  setLocationState('idle');
+                  setSearchInput('');
+                  const nextAreas = isAll ? [] : toggleInList(areaCodes, opt.code);
+                  updateParams({
+                    lat: undefined,
+                    lng: undefined,
+                    radius: undefined,
+                    keyword: undefined,
+                    area: nextAreas.length > 0 ? nextAreas.join(',') : undefined,
+                  });
+                }}
+                type="button"
+              >
+                {opt.label}
+                {opt.code in areaCounts && (
+                  <span className="chip__count">{areaCounts[opt.code].toLocaleString()}</span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {coords && (
@@ -397,16 +417,23 @@ export default function Home() {
         )}
 
         <div className="home__filters home__filters--type" ref={typeFiltersRef}>
-          {CONTENT_TYPE_OPTIONS.map((opt) => (
-            <button
-              key={opt.code}
-              type="button"
-              className={`chip chip--sort ${contentTypeId === opt.code ? 'chip--active' : ''}`}
-              onClick={() => updateParams({ contentTypeId: opt.code || undefined })}
-            >
-              {opt.label}
-            </button>
-          ))}
+          {CONTENT_TYPE_OPTIONS.map((opt) => {
+            const isAll = opt.code === '';
+            const isActive = isAll ? contentTypeIds.length === 0 : contentTypeIds.includes(opt.code);
+            return (
+              <button
+                key={opt.code}
+                type="button"
+                className={`chip chip--sort ${isActive ? 'chip--active' : ''}`}
+                onClick={() => {
+                  const nextTypes = isAll ? [] : toggleInList(contentTypeIds, opt.code);
+                  updateParams({ contentTypeId: nextTypes.length > 0 ? nextTypes.join(',') : undefined });
+                }}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
         </div>
 
         {LOCATION_ERROR_MESSAGES[locationState] && (
