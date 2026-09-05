@@ -1,65 +1,33 @@
 .stamp {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  border: 2px solid currentColor;
-  transform: rotate(-8deg);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 10.5px;
-  letter-spacing: 0.02em;
-  text-align: center;
-  line-height: 1.2;
-  padding: 4px;
-  flex-shrink: 0;
-}
-
-.stamp::before {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  opacity: 0.55;
-}
-
-.stamp--ok        { color: var(--color-pine); }
-.stamp--limited    { color: var(--color-amber); }
-.stamp--unknown    { color: var(--color-ink-soft); }
-
-.stamp__text {
-  position: relative;
-  z-index: 1;
-}
-
-.stamp-badge {
-  /* 96px 정사각 썸네일 정중앙에 큼직하게 얹는 도장 */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 4px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
   border: 3px solid;
-  transform: translate(-50%, -50%) rotate(-6deg);
+  transform: rotate(-6deg);
+  font-family: var(--font-display);
   font-weight: 800;
   font-size: 10px;
   line-height: 1.1;
   letter-spacing: -0.01em;
   text-align: center;
+  padding: 4px;
   box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
 }
 
-.stamp-badge--ok      { background: var(--color-pine-strong); color: #fff; border-color: var(--color-pine-strong); }
-.stamp-badge--limited { background: var(--color-amber); color: #241804; border-color: var(--color-amber); }
-.stamp-badge--unknown { background: var(--color-ink-soft); color: #14171A; border-color: var(--color-ink-soft); }
+.stamp--ok      { background: var(--color-pine-strong); color: #fff; border-color: var(--color-pine-strong); }
+.stamp--limited { background: var(--color-amber); color: #241804; border-color: var(--color-amber); }
+.stamp--unknown { background: var(--color-ink-soft); color: #14171A; border-color: var(--color-ink-soft); }
+
+.stamp--badge {
+  /* 96px 정사각 썸네일 정중앙에 겹쳐 놓는 위치만 다르고, 디자인 자체는 위 .stamp와 동일 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-6deg);
+}
