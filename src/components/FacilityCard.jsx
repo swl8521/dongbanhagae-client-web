@@ -30,6 +30,12 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
   // 상세화면에서 이미 조회한 곳이면, 목록 API의 부분적인 필드 대신 상세 조회 때 받은
   // 전체 pet 데이터로 배지/태그를 그려서 뒤로가기 시에도 실제 상태가 바로 반영되게 한다.
   const petData = readPetData(contentid) ?? item;
+  const cachedStatus = readPetStatus(contentid);
+  const petStatus = cachedStatus ?? guessPetStatus(item);
+  // 목록 API만으로는 unknown이 "정보가 진짜 없음"인지 "목록에 필드가 빠져서 아직 모름"인지
+  // 구분이 안 된다 - 상세화면을 아직 안 봤다면(cachedStatus 없음) "조회 필요"로, 상세화면까지
+  // 확인했는데도 unknown이면(cachedStatus 존재) 그때는 "정보 없음"으로 보여준다.
+  const petStatusLabel = !cachedStatus && petStatus === 'unknown' ? '조회 필요' : undefined;
 
   return (
     <Link
@@ -42,7 +48,7 @@ export default function FacilityCard({ item, onRecommendChange, highlighted }) {
         {firstimage
           ? <img src={firstimage} alt={title} loading="lazy" />
           : <div className="facility-card__photo--placeholder"><PawPrint size={24} strokeWidth={1.75} /></div>}
-        <ConditionStamp status={readPetStatus(contentid) ?? guessPetStatus(item)} variant="badge" />
+        <ConditionStamp status={petStatus} label={petStatusLabel} variant="badge" />
       </div>
 
       <FavoriteButton contentId={contentid} size={14} className="facility-card__fav" />
