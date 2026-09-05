@@ -316,23 +316,6 @@ export default function Home() {
                 <Route size={20} strokeWidth={2} />
               </span>
             </h1>
-            <div className="home__lede-group">
-              {activeDog ? (
-                <>
-                  <p className="home__lede">우리 아이와 갈 수 있는 곳을 찾아보세요</p>
-                  <p className="home__dog-summary">
-                    {[activeDog.name, activeDog.breed].filter(Boolean).join(' · ')}
-                  </p>
-                  {items.length > 0 && (
-                    <p className="home__nearby-count">
-                      {coords ? '주변' : '전체'} {totalCount.toLocaleString()}곳
-                    </p>
-                  )}
-                </>
-              ) : (
-                <p className="home__lede">미리미리 확인해요!</p>
-              )}
-            </div>
           </div>
           <div className="home__header-actions">
             <Link to="/dog-profile" className="home__dog-link" aria-label="강아지 프로필">
@@ -342,6 +325,24 @@ export default function Home() {
               <Heart size={20} strokeWidth={2} />
             </Link>
           </div>
+        </div>
+
+        <div className="home__lede-group">
+          {activeDog ? (
+            <>
+              <p className="home__lede">우리 아이와 갈 수 있는 곳을 찾아보세요</p>
+              <p className="home__dog-summary">
+                {[activeDog.name, activeDog.breed].filter(Boolean).join(' · ')}
+              </p>
+              {items.length > 0 && (
+                <p className="home__nearby-count">
+                  {coords ? '주변' : '전체'} {totalCount.toLocaleString()}곳
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="home__lede">미리미리 확인해요!</p>
+          )}
         </div>
 
         <form
