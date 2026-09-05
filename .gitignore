@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+docs
 
 # scripts/copy-maplibre-worker.js가 install/build 때마다 node_modules에서 복사함
 public/maplibre-gl-worker.mjs
