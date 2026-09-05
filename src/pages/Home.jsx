@@ -337,7 +337,6 @@ export default function Home() {
           <div className="home__header-actions">
             <Link to="/dog-profile" className="home__dog-link" aria-label="강아지 프로필">
               <PawPrint size={20} strokeWidth={2} />
-              {activeDog && <span className="home__dog-link-name">{activeDog.name}</span>}
             </Link>
             <Link to="/favorites" className="home__favorites-link" aria-label="즐겨찾기 목록">
               <Heart size={20} strokeWidth={2} />

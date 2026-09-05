@@ -27,9 +27,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
   height: 40px;
-  min-width: 40px;
-  padding: 0 12px;
+  padding: 0;
   border-radius: 999px;
   border: 1px solid var(--color-line);
   background: var(--color-surface);
@@ -38,20 +38,11 @@
 }
 
 .home__favorites-link {
-  width: 40px;
-  padding: 0;
   color: var(--color-coral);
 }
 
 .home__dog-link {
-  gap: 6px;
   color: var(--color-amber);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.home__dog-link-name {
-  color: var(--color-ink);
 }
 
 .home__eyebrow {
